@@ -1,0 +1,58 @@
+﻿@page "{PersonId:int}"
+@model Sample.Web.Pages.People.EditModel
+@{
+	ViewData["Title"] = "Edit Person";
+}
+
+<form id="addForm">
+	<div class="form-group">
+		<label for="name">Name</label>
+		<input type="text" class="form-control" id="name" placeholder="Enter Name">
+	</div>
+	<div class="form-group">
+		<label for="family">Family</label>
+		<input type="text" class="form-control" id="family" placeholder="Enter Family">
+	</div>
+	<div class="form-group">
+		<label for="age">Age</label>
+		<input type="number" class="form-control" id="age">
+	</div>
+	<button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+@section Scripts{
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			url:'/api/person/@Model.PersonId',
+			type:'GET',
+			success:function(data){
+				$('#name').val(data.name);
+				$('#family').val(data.family);
+				$('#age').val(data.age);
+			}
+		});
+		$('#addForm').submit(function(e){
+			e.preventDefault();
+			let data = {
+				Name : $('#name').val(),
+				Family : $('#family').val(),
+				Age : $('#age').val(),
+				Id : @Model.PersonId
+			};
+			$.ajax({
+				url:'/api/person',
+				type:'PUT',
+				contentType: "application/json",
+				dataType: "json",
+				data: JSON.stringify(data),
+				success:function(data){
+					if(data){
+						window.location.href = "/People";
+					}
+				}
+			});
+		});
+	});
+</script>
+}

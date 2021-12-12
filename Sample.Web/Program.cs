@@ -5,6 +5,8 @@ using Sample.Business.Businesses;
 using Sample.Api.Contracts;
 using Sample.Business.Contracts;
 using Sample.Model;
+using Hoorbakht.RedisService;
+using Hoorbakht.RedisService.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +23,10 @@ builder.Services
 	.AddScoped<IBusiness<Person>, PersonBusiness>()
 	.AddScoped<IBusiness<Employee>, EmployeeBusiness>()
 	.AddScoped<IBusiness<Section>, SectionBusiness>()
-	.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample.Api", Version = "v1" }));
+	.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sample.Api", Version = "v1" }))
+	.AddTransient<IRedisService<Person>>(_ => new RedisService<Person>(new RedisConfiguration(-1, "Sample", "localhost:6379"), "Person"))
+	.AddTransient<IRedisService<Employee>>(_ => new RedisService<Employee>(new RedisConfiguration(-1, "Sample", "localhost:6379"), "Employee"))
+	.AddTransient<IRedisService<Section>>(_ => new RedisService<Section>(new RedisConfiguration(-1, "Sample", "localhost:6379"), "Section"));
 
 var app = builder.Build();
 

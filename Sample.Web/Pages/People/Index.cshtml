@@ -1,0 +1,45 @@
+﻿@page
+@model Sample.Web.Pages.People.IndexModel
+@{
+	ViewData["Title"] = "People";
+}
+
+<a class="btn btn-info" href="/People/Create">Create</a>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">FullName</th>
+			<th scope="col">Age</th>
+			<th scope="col">Operation</th>
+		</tr>
+	</thead>
+	<tbody id="peopleTable">	
+	</tbody>
+</table>
+
+@section Scripts{
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.ajax({
+			url:'/api/person',
+			type:'GET',
+			success:function(data){
+				$.each(data,
+				function (index, item) {
+					$('#peopleTable').append(`
+					<tr>
+						<th scope="row">${item.id}</th>
+						<td>${item.fullName}</td>
+						<td>${item.age}</td>
+						<td><a class='btn btn-danger' href='/People/Delete/${item.id}'>Delete</a>
+						<a class='btn btn-success' href='/People/Edit/${item.id}'>Edit</a></td>
+					</tr>
+					`);
+				});
+			}
+		});
+	});
+</script>
+}
