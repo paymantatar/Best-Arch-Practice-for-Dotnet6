@@ -25,4 +25,9 @@
     <ProjectReference Include="..\Sample.Redis\Sample.Redis.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Employee\" />
+    <Folder Include="Pages\Section\" />
+  </ItemGroup>
+
 </Project>

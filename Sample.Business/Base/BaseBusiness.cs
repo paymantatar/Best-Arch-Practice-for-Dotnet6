@@ -1,4 +1,4 @@
-﻿using Hoorbakht.RedisService;
+﻿//using Hoorbakht.RedisService;
 using Microsoft.EntityFrameworkCore;
 using Sample.Business.Contracts;
 using Sample.DataAccess;
@@ -12,13 +12,13 @@ public class BaseBusiness<T> : IBusiness<T> where T : BaseEntity
 
 	private readonly DbSet<T> _dbset;
 
-	private readonly IRedisService<T> _redisService;
+	//private readonly IRedisService<T> _redisService;
 
-	public BaseBusiness(SampleContext sampleContext, IRedisService<T> redisService)
+	public BaseBusiness(SampleContext sampleContext)
 	{
 		_context = sampleContext;
 		_dbset = _context.Set<T>();
-		_redisService = redisService;
+		//_redisService = redisService;
 	}
 
 	public async Task<List<T>?> LoadAllAsync(CancellationToken cancellationToken = new()) =>
@@ -26,13 +26,14 @@ public class BaseBusiness<T> : IBusiness<T> where T : BaseEntity
 
 	public async Task<T?> LoadByIdAsync(int id, CancellationToken cancellationToken = new())
 	{
-		var cachedData = await _redisService.GetHashAsync(id.ToString());
-		if(cachedData != null) 
-			return cachedData;
-		var data = await _dbset!.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
-		if(data == null) return null;
-		await _redisService.SetHashAsync(id.ToString(), data);
-		return data;
+		//var cachedData = await _redisService.GetHashAsync(id.ToString());
+		//if(cachedData != null) 
+		//	return cachedData;
+		//var data = await _dbset!.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+		//if(data == null) return null;
+		//await _redisService.SetHashAsync(id.ToString(), data);
+		//return data;
+		return await _dbset!.SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
 	}
 
 	public async Task<bool> CreateAsync(T t, CancellationToken cancellationToken = new())
@@ -41,7 +42,7 @@ public class BaseBusiness<T> : IBusiness<T> where T : BaseEntity
 		{
 			await _dbset!.AddAsync(t, cancellationToken);
 			await _context.SaveChangesAsync(cancellationToken);
-			await _redisService.SetHashAsync(t.Id.ToString(), t);
+			//await _redisService.SetHashAsync(t.Id.ToString(), t);
 			return true;
 		}
 		catch

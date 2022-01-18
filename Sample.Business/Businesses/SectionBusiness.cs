@@ -7,6 +7,6 @@ namespace Sample.Business.Businesses;
 
 public class SectionBusiness : BaseBusiness<Section>
 {
-	public SectionBusiness(SampleContext context, IRedisService<Section> redisService) : base(context, redisService) { }
+	public SectionBusiness(SampleContext context) : base(context) { }
 }
 

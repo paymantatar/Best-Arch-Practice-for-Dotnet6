@@ -7,6 +7,7 @@ namespace Sample.Business.Businesses;
 
 public class EmployeeBusiness : BaseBusiness<Employee>
 {
-	public EmployeeBusiness(SampleContext context, IRedisService<Employee> redisService) : base(context, redisService) { }
+	public EmployeeBusiness(SampleContext context) : base(context) { }
+	//public EmployeeBusiness(SampleContext context, IRedisService<Employee> redisService) : base(context, redisService) { }
 }
 
