@@ -1,4 +1,5 @@
-﻿using Sample.Business.Base;
+﻿using Hoorbakht.RedisService;
+using Sample.Business.Base;
 using Sample.DataAccess;
 using Sample.Model;
 

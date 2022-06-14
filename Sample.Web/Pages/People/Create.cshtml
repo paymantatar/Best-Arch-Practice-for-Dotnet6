@@ -1,0 +1,46 @@
+﻿@page
+@model Sample.Web.Pages.People.CreateModel
+@{
+	ViewData["Title"] = "Add Person";
+}
+
+<form id="addForm">
+	<div class="form-group">
+		<label for="name">Name</label>
+		<input type="text" class="form-control" id="name" placeholder="Enter Name">
+	</div>
+	<div class="form-group">
+		<label for="family">Family</label>
+		<input type="text" class="form-control" id="family" placeholder="Enter Family">
+	</div>
+	<div class="form-group">
+		<label for="age">Age</label>
+		<input type="number" class="form-control" id="age">
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts{
+<script type="text/javascript">
+	$('#addForm').submit(function(e){
+		e.preventDefault();
+		let data = {
+			Name : $('#name').val(),
+			Family : $('#family').val(),
+			Age : $('#age').val(),
+		};
+		$.ajax({
+			url:'/api/person',
+			type:'POST',
+			contentType: "application/json",
+			dataType: "json",
+			data: JSON.stringify(data),
+			success:function(data){
+				if(data){
+					window.location.href = "/People";
+				}
+			}
+		});
+	});
+</script>
+}
