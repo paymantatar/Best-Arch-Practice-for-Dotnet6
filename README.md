@@ -4,4 +4,4 @@ By Payman
 # Less coding.
 # Easier maintaining.
 # Rapid developing.
-# Redis for caching the data for performance.
+# Redis for caching the data for better performance and response.
